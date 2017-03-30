@@ -1,0 +1,23 @@
+{
+  "name": "ai-eight-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "IA.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasfeandrade/AI-eight-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucasfeandrade/AI-eight-game/issues"
+  },
+  "homepage": "https://github.com/lucasfeandrade/AI-eight-game#readme"
+}
