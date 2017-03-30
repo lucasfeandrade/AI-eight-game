@@ -1,3 +1,5 @@
+var _ = require("underscore");
+
 let Visitados;
 let Fronteira;
 let estadoInicial = [
@@ -33,13 +35,7 @@ function Algoritmo(solucao, estadoInicial) {
   return caminhoOtimo;
 }
 
-function encontrarZero(estado) {
-  const tamanhoEstado = estado.length;
-  for (let i = 0; i < tamanhoEstado; i++)
-    for (let j = 0; j < tamanhoEstado; j++)
-      if (estado[i][j] == 0)
-        return [i, j];
-}
+
 
 function calcularEstado(estado, movimento) {
   const posicaoZero = encontrarZero(estado);
@@ -106,5 +102,14 @@ class Caminho() {
   function calcularHeuristica() {
     // todo
     return 0;
+  }
+
+  function encontrarNumero(num) {
+    const tamanhoEstado = this.estado.length;
+    for (let i = 0; i < tamanhoEstado; i++)
+      for (let j = 0; j < tamanhoEstado; j++)
+        if (estado[i][j] == num)
+          return [i, j];
+    return null;
   }
 }
