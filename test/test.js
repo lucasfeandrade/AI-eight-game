@@ -16,7 +16,7 @@ describe("#Classe Caminho", () => {
       [8, 0, 4],
       [7, 6, 5]
     ];
-    let caminho = new Caminho('nslo', estado, solucao);
+    let caminho = new Caminho('NSLO', estado, solucao);
 
     it('Calculo custo + heuristica', function() {
       assert.equal(caminho.custo, 2 + 0 + 2 + 0 + 0 + 1 + 2 + 2 + 3 + caminho.sequencia.length);
@@ -24,20 +24,20 @@ describe("#Classe Caminho", () => {
 
 
     it('Movimento N', function() {
-      assert.deepEqual(caminho.calcularEstado('N'), null);
+      assert.deepEqual(caminho.gerarCaminho('N'), null);
     });
     it('Movimento S', function() {
-      assert.deepEqual(caminho.calcularEstado('S'), [
+      assert.deepEqual(caminho.gerarCaminho('S').estado, [
         [1, 6, 3],
         [0, 7, 4],
         [2, 5, 8]
       ]);
     });
     it('Movimento L', function() {
-      assert.deepEqual(caminho.calcularEstado('L'), null);
+      assert.deepEqual(caminho.gerarCaminho('L'), null);
     });
     it('Movimento O', function() {
-      assert.deepEqual(caminho.calcularEstado('O'), [
+      assert.deepEqual(caminho.gerarCaminho('O').estado, [
         [1, 6, 3],
         [2, 7, 4],
         [5, 0, 8]
@@ -57,7 +57,7 @@ describe("#Classe Caminho", () => {
       [8, 0, 4],
       [7, 6, 5]
     ];
-    let caminho = new Caminho('nslo', estado, solucao);
+    let caminho = new Caminho('NSLO', estado, solucao);
 
     it('Calculo custo + heuristica', function() {
       assert.equal(caminho.custo, 0 + 0 + 2 + 0 + 0 + 1 + 2 + 0 + 3 + caminho.sequencia.length);
@@ -65,28 +65,28 @@ describe("#Classe Caminho", () => {
 
 
     it('Movimento N', function() {
-      assert.deepEqual(caminho.calcularEstado('N'), [
+      assert.deepEqual(caminho.gerarCaminho('N').estado, [
         [1, 6, 3],
         [2, 5, 4],
         [7, 0, 8]
       ]);
     });
     it('Movimento S', function() {
-      assert.deepEqual(caminho.calcularEstado('S'), [
+      assert.deepEqual(caminho.gerarCaminho('S').estado, [
         [1, 0, 3],
         [2, 6, 4],
         [7, 5, 8]
       ]);
     });
     it('Movimento L', function() {
-      assert.deepEqual(caminho.calcularEstado('L'), [
+      assert.deepEqual(caminho.gerarCaminho('L').estado, [
         [1, 6, 3],
         [0, 2, 4],
         [7, 5, 8]
       ]);
     });
     it('Movimento O', function() {
-      assert.deepEqual(caminho.calcularEstado('O'), [
+      assert.deepEqual(caminho.gerarCaminho('O').estado, [
         [1, 6, 3],
         [2, 4, 0],
         [7, 5, 8]

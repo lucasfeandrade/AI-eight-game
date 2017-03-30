@@ -17,7 +17,7 @@ export function Algoritmo(solucao, estadoInicial) {
     Visitados.push(ultimaFronteira.estado);
     // verificar se os estados ja nao estao nos visitados, se sim, verificar se
     //
-    Fronteira.concat(calcularFronteira(Visitados, ultimaFronteira, solucao));
+    Fronteira.concat(gerarFronteira(Visitados, ultimaFronteira, solucao));
 
     // Fronteira.
   }

@@ -15,7 +15,7 @@ export class Caminho {
 
   calcularHeuristica() {
     let heuristica = 0;
-    let valores = _.range(0, 9);
+    let valores = _.range(0, Math.pow(this.estado.length, 2));
     _.each(valores, (num) => {
       let posAtual = this.encontrarNumero(num, this.estado);
       let posSolucao = this.encontrarNumero(num, this.solucao);
@@ -26,48 +26,53 @@ export class Caminho {
 
   encontrarNumero(num, estado) {
     const tamanhoEstado = estado.length;
-    for (let i = 0; i < tamanhoEstado; i++)
-      for (let j = 0; j < tamanhoEstado; j++)
+    const linhas = _.range(0, this.estado.length);
+    const colunas = _.range(0, this.estado[0].length);
+
+    for (let i = 0; i < linhas.length; i++)
+      for (let j = 0; j < colunas.length; j++)
         if (estado[i][j] == num)
           return [i, j];
     return null;
   }
 
-  criarFronteira(direcao) {
-    let estadoCaminho = this.calcularEstado(direcao);
-    let sequenciaCaminho = this.sequencia + direcao;
-    let caminho = new Caminho(estadoCaminho, sequenciaCaminho);
-    return caminho;
+  gerarFronteira() {
+    let fronteira = [];
+    _.each(["N", "S", "L", "O"], (dir) => {
+      fronteira.push(gerarCaminho(dir));
+    })
+    return fronteira;
   }
 
-  calcularEstado(movimento) {
+  gerarCaminho(movimento) {
     const posicaoZero = this.encontrarNumero(0, this.estado);
     const linhaZero = posicaoZero[0];
     const colunaZero = posicaoZero[1];
-    let resultado = cloneDeep(this.estado);
+    let estado = cloneDeep(this.estado);
 
     switch (movimento) {
       case 'N':
         if (linhaZero >= 2) return null;
-        resultado[linhaZero][colunaZero] = this.estado[linhaZero + 1][colunaZero];
-        resultado[linhaZero + 1][colunaZero] = 0;
+        estado[linhaZero][colunaZero] = this.estado[linhaZero + 1][colunaZero];
+        estado[linhaZero + 1][colunaZero] = 0;
         break;
       case 'S':
         if (linhaZero <= 0) return null;
-        resultado[linhaZero][colunaZero] = this.estado[linhaZero - 1][colunaZero];
-        resultado[linhaZero - 1][colunaZero] = 0;
+        estado[linhaZero][colunaZero] = this.estado[linhaZero - 1][colunaZero];
+        estado[linhaZero - 1][colunaZero] = 0;
         break;
       case 'L':
         if (colunaZero <= 0) return null;
-        resultado[linhaZero][colunaZero] = this.estado[linhaZero][colunaZero - 1];
-        resultado[linhaZero][colunaZero - 1] = 0;
+        estado[linhaZero][colunaZero] = this.estado[linhaZero][colunaZero - 1];
+        estado[linhaZero][colunaZero - 1] = 0;
         break;
       case 'O':
         if (colunaZero >= 2) return null;
-        resultado[linhaZero][colunaZero] = this.estado[linhaZero][colunaZero + 1];
-        resultado[linhaZero][colunaZero + 1] = 0;
+        estado[linhaZero][colunaZero] = this.estado[linhaZero][colunaZero + 1];
+        estado[linhaZero][colunaZero + 1] = 0;
         break;
     }
+    let resultado = new Caminho(this.sequencia + movimento, estado, this.solucao);
     return resultado;
   }
 
