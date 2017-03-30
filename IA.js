@@ -18,7 +18,7 @@ function Algoritmo(solucao, estadoInicial) {
   while (!resolvido) {
     let ultimaFronteira = fronteira.pop();
     visitados.push(ultimaFronteira.estado);
-    calcularFronteira(visitados, ultimaFronteira, solucao);
+    fronteira.concat(calcularFronteira(visitados, ultimaFronteira, solucao));
   }
   return caminhoOtimo;
 }
@@ -73,6 +73,7 @@ function calcularFronteira(visitados, caminhoAtual, solucao) {
   if (posicaoZero[1] < 2) {
     caminhosFronteira.push(caminhoAtual.criarFronteira('S'));
   }
+  return caminhosFronteira;
 }
 
 
