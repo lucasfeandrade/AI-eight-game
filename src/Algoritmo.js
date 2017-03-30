@@ -24,8 +24,6 @@ export function Algoritmo(solucao, estadoInicial) {
   return caminhoOtimo;
 }
 
-
-
 function calcularFronteira(visitados, caminhoAtual, solucao) {
   const posicaoZero = encontrarZero(caminhoAtual.estado);
   let caminhosFronteira = [];
