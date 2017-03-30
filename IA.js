@@ -13,12 +13,22 @@ let solucao = [
 ];
 
 function Algoritmo(solucao, estadoInicial) {
+  let resolvido = false;
   caminhoInicial = new Caminho("", estadoInicial, 0);
-  fronteira.push(caminhoInicial);
+  Fronteira.push(caminhoInicial);
+
   while (!resolvido) {
-    let ultimaFronteira = fronteira.pop();
-    visitados.push(ultimaFronteira.estado);
-    fronteira.concat(calcularFronteira(visitados, ultimaFronteira, solucao));
+    let ultimaFronteira = Fronteira.pop();
+    if (ultimaFronteira.estado == solucao) {
+      resolvido = true;
+      break;
+    }
+    Visitados.push(ultimaFronteira.estado);
+    // verificar se os estados ja nao estao nos visitados, se sim, verificar se
+    //
+    Fronteira.concat(calcularFronteira(Visitados, ultimaFronteira, solucao));
+
+    Fronteira.
   }
   return caminhoOtimo;
 }
@@ -29,10 +39,6 @@ function encontrarZero(estado) {
     for (let j = 0; j < tamanhoEstado; j++)
       if (estado[i][j] == 0)
         return [i, j];
-}
-
-function calcularHeuristica(estado, solucao) {
-  return numero;
 }
 
 function calcularEstado(estado, movimento) {
@@ -82,7 +88,7 @@ class Caminho() {
   constructor(sequencia, estado, custo) {
     this.sequencia = sequencia;
     this.estado = estado;
-    this.custo = custo;
+    this.custo = calcularCusto();
   }
 
   function criarFronteira(direcao) {
@@ -91,5 +97,14 @@ class Caminho() {
     let custoCaminho = sequenciaCaminho.length + calcularHeuristica(estadoCaminho, solucao);
     let caminho = new Caminho(estadoCaminho, sequenciaCaminho, custoCaminho);
     return caminho;
+  }
+
+  function calcularCusto() {
+    return this.sequencia.length + calcularHeuristica();
+  }
+
+  function calcularHeuristica() {
+    // todo
+    return 0;
   }
 }
