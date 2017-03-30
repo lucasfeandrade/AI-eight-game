@@ -39,7 +39,8 @@ export class Caminho {
   gerarFronteira() {
     let fronteira = [];
     _.each(["N", "S", "L", "O"], (dir) => {
-      fronteira.push(gerarCaminho(dir));
+      let caminho = this.gerarCaminho(dir)
+      if (caminho) fronteira.push(caminho);
     })
     return fronteira;
   }
