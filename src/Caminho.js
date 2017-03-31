@@ -26,11 +26,8 @@ export class Caminho {
 
   encontrarNumero(num, estado) {
     const tamanhoEstado = estado.length;
-    const linhas = _.range(0, this.estado.length);
-    const colunas = _.range(0, this.estado[0].length);
-
-    for (let i = 0; i < linhas.length; i++)
-      for (let j = 0; j < colunas.length; j++)
+    for (let i = 0; i < estado.length; i++)
+      for (let j = 0; j < estado.length; j++)
         if (estado[i][j] == num)
           return [i, j];
     return null;
@@ -73,8 +70,7 @@ export class Caminho {
         estado[linhaZero][colunaZero + 1] = 0;
         break;
     }
-    let resultado = new Caminho(this.sequencia + movimento, estado, this.solucao);
-    return resultado;
+    return new Caminho(this.sequencia + movimento, estado, this.solucao);
   }
 
 }
