@@ -1,4 +1,4 @@
-# Eight Game AI
+# Eight Puzzle AI
 
 ### Install/Config
 ```
