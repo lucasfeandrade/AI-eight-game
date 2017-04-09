@@ -1,12 +1,16 @@
 import { Caminho } from './Caminho.js';
 var _ = require("underscore");
 
-function Resolver8PuzzleSolucao(solucao, estadoInicial) {
+function Resolver8PuzzleSolucao(estadoInicial, solucao) {
   let EstadosVisitados = [];
   let CaminhosVisitados = [];
   let Fronteira = [];
   let resolvido = false;
   let caminhoInicial = new Caminho("", estadoInicial, solucao);
+
+  let tamanhoMaxFronteira = 0;
+
+
   Fronteira.push(caminhoInicial);
 
   while (!resolvido) {
@@ -17,7 +21,7 @@ function Resolver8PuzzleSolucao(solucao, estadoInicial) {
     let caminhoAtual = Fronteira.shift();
     CaminhosVisitados.push(caminhoAtual);
     EstadosVisitados.push(caminhoAtual.estado.toString());
-    console.log(`Visitados: ${EstadosVisitados.length} \t Fronteira: ${Fronteira.length} \t Sequencia: ${caminhoAtual.sequencia.length} \t Custo Atual: ${caminhoAtual.custo}`);
+    // console.log(`Visitados: ${EstadosVisitados.length} \t Fronteira: ${Fronteira.length} \t Sequencia: ${caminhoAtual.sequencia.length} \t Custo Atual: ${caminhoAtual.custo}`);
 
     // Se caminho for solucao, o problema está resolvido
     if (_.isEqual(caminhoAtual.estado, solucao)) {
@@ -26,9 +30,7 @@ function Resolver8PuzzleSolucao(solucao, estadoInicial) {
 
     // Se demora muito, supoe que nao tem solucao
     // TODO: Implementar funcao temSolucao()
-    if (CaminhosVisitados.length > 3000) {
-      return false;
-    }
+    if (!temSolucao(estadoInicial, solucao)) return false;
 
     // Ao visitar o caminho, devemos atualizar a fronteira de acordo com os
     // movimentos possiveis a partir deste estado
@@ -174,15 +176,36 @@ function Resolver8Puzzle(estadoInicial) {
   let caminhosSolucao = [];
 
   for (let solucao of solucoes) {
-    caminhosSolucao.push(Resolver8PuzzleSolucao(solucao, estadoInicial));
+    caminhosSolucao.push(Resolver8PuzzleSolucao(estadoInicial, solucao));
   }
-  caminhosSolucao = _.sortBy(caminhosSolucao, 'custo');
+  caminhosSolucao = _.sortBy(caminhosSolucao, 'custo').filter((e) => {
+    return e;
+  });
   return caminhosSolucao;
   // return caminhosSolucao[0];
 }
 
-function temSolucao(estado, solucao) {
-
+function calcularInversoes(arr) {
+  let inversoes = 0;
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] > arr[j]) {
+        inversoes++;
+      }
+    }
+  }
+  return inversoes;
 }
 
-export { Resolver8Puzzle, Resolver8PuzzleSolucao };
+function temSolucao(estado, solucao) {
+  let listaEstado = _.flatten(estado);
+  let listaSolucao = _.flatten(solucao);
+  let inversoesEstado = calcularInversoes(listaEstado);
+  let inversoesSolucao = calcularInversoes(listaSolucao);
+
+  let inversoes = Math.abs(inversoesEstado - inversoesSolucao);
+
+  return (inversoes % 2 == 1);
+}
+
+export { Resolver8Puzzle, Resolver8PuzzleSolucao, calcularInversoes };
