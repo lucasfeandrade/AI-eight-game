@@ -2,6 +2,8 @@ import { Caminho } from './Caminho.js';
 var _ = require("underscore");
 
 function Resolver8PuzzleSolucao(estadoInicial, solucao) {
+  if (!temSolucao(estadoInicial, solucao)) return false;
+
   let EstadosVisitados = [];
   let CaminhosVisitados = [];
   let Fronteira = [];
@@ -10,12 +12,13 @@ function Resolver8PuzzleSolucao(estadoInicial, solucao) {
 
   let tamanhoMaxFronteira = 0;
 
-
   Fronteira.push(caminhoInicial);
 
   while (!resolvido) {
     // Ordenar a fronteira por custo
-    Fronteira = _.sortBy(Fronteira, 'custo');
+    Fronteira = _.sortBy(Fronteira, 'custo')
+
+    if (Fronteira.length > tamanhoMaxFronteira) tamanhoMaxFronteira = Fronteira.length;
 
     // Visitar o caminho com menor custo
     let caminhoAtual = Fronteira.shift();
@@ -25,12 +28,13 @@ function Resolver8PuzzleSolucao(estadoInicial, solucao) {
 
     // Se caminho for solucao, o problema está resolvido
     if (_.isEqual(caminhoAtual.estado, solucao)) {
+      caminhoAtual.maxFronteira = tamanhoMaxFronteira;
+      caminhoAtual.estadosVisitados = EstadosVisitados.length;
       return caminhoAtual;
     }
 
     // Se demora muito, supoe que nao tem solucao
     // TODO: Implementar funcao temSolucao()
-    if (!temSolucao(estadoInicial, solucao)) return false;
 
     // Ao visitar o caminho, devemos atualizar a fronteira de acordo com os
     // movimentos possiveis a partir deste estado
@@ -189,7 +193,7 @@ function calcularInversoes(arr) {
   let inversoes = 0;
   for (let i = 0; i < arr.length; i++) {
     for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i] > arr[j]) {
+      if (arr[i] && arr[j] && arr[i] > arr[j]) {
         inversoes++;
       }
     }
@@ -198,14 +202,13 @@ function calcularInversoes(arr) {
 }
 
 function temSolucao(estado, solucao) {
+  debugger;
   let listaEstado = _.flatten(estado);
   let listaSolucao = _.flatten(solucao);
   let inversoesEstado = calcularInversoes(listaEstado);
   let inversoesSolucao = calcularInversoes(listaSolucao);
 
-  let inversoes = Math.abs(inversoesEstado - inversoesSolucao);
-
-  return (inversoes % 2 == 1);
+  return (inversoesEstado % 2 == inversoesSolucao % 2);
 }
 
-export { Resolver8Puzzle, Resolver8PuzzleSolucao, calcularInversoes };
+export { Resolver8Puzzle, Resolver8PuzzleSolucao, calcularInversoes, temSolucao };
